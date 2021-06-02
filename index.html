@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <head>
   <title>Todos & Goals App</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js'></script>
+
 </head>
 <body>
 
@@ -163,14 +165,10 @@
       }
     }
 
-    function app (state = {}, action) {
-      return {
-        todos: todos(state.todos, action),
-        goals: goals(state.goals, action),
-      }
-    }
-
-    const store = createStore(app)
+    const store = Redux.createStore(Redux.combineReducers({
+      todos,
+      goals
+    }))
 
     store.subscribe(()=>{
       console.log('The new state is: ', store.getState())
@@ -214,39 +212,39 @@
     /**
      * Factory function that creates store objects
      */
-    function createStore (reducer) {
-      // The store should have four parts
-      // 1. The state
-      // 2. Get the state.
-      // 3. Listen to changes on the state.
-      // 4. Update the state
+    // function createStore (reducer) {
+    //   // The store should have four parts
+    //   // 1. The state
+    //   // 2. Get the state.
+    //   // 3. Listen to changes on the state.
+    //   // 4. Update the state
 
-      let listeners = []
-      let state
+    //   let listeners = []
+    //   let state
 
-      // returns the state
-      const getState = () => state
+    //   // returns the state
+    //   const getState = () => state
 
-      // listens to changes
-      const subscribe = (listener) => {
-        listeners.push(listener)
-        return () => {
-          listeners = listeners.filter((l) => (l !== listener))
-        }
-      }
+    //   // listens to changes
+    //   const subscribe = (listener) => {
+    //     listeners.push(listener)
+    //     return () => {
+    //       listeners = listeners.filter((l) => (l !== listener))
+    //     }
+    //   }
 
-      // update state
-      const dispatch = (action) => {
-        state = reducer(state, action)
-        listeners.forEach((listener) => listener())
-      }
+    //   // update state
+    //   const dispatch = (action) => {
+    //     state = reducer(state, action)
+    //     listeners.forEach((listener) => listener())
+    //   }
 
-      return {
-        getState,
-        subscribe,
-        dispatch
-      }
-    }
+    //   return {
+    //     getState,
+    //     subscribe,
+    //     dispatch
+    //   }
+    // }
 
     // store.dispatch(addTodoAction({
     //   id: 0,
