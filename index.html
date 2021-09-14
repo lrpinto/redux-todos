@@ -2,7 +2,9 @@
 <head>
   <title>Todos & Goals App</title>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js'></script>
-
+  <script src="https://unpkg.com/react@16.3.0-alpha.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16.3.0-alpha.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 </head>
 <body>
 
@@ -21,6 +23,10 @@
     <button id='add-goal-btn'>Add Goal</button>
     <ul id='goals'></ul>
   </section>
+
+  <hr />
+
+  <div id='app'></div>
 
   <script type='text/javascript'>
     //--------- App code ---------//
@@ -165,7 +171,7 @@
       }
     }
 
-    const checker = (store) => (next) => (action) => {
+    const checker = store => next => action => {
       if (
         action.type === ADD_TODO &&
         action.todo.name.toLowerCase().includes('wilson')
@@ -183,21 +189,21 @@
       return next(action)
     }
 
-    const alertTodo = (store) => (next) => (action) => {
+    const alertTodo = store => next => action => {
       if (action.type === ADD_TODO) {
         alert(`Don't forget to ${action.todo.name}!`)
       }
       return next(action)
     }
 
-    const alertGoal = (store) => (next) => (action) => {
+    const alertGoal = store => next => action => {
       if (action.type === ADD_GOAL) {
         alert(`That's a great goal`)
       }
       return next(action)
     }
 
-    const logger = (store) => (next) => (action) => {
+    const logger = store => next => action => {
       console.group(action.type)
         console.log('The action: ', action)
         const result = next(action)
@@ -224,6 +230,55 @@
     })
 
    
+  </script>
+
+  <script type='text/babel' >
+  
+    function List (props) {
+      return (
+        <ul>
+          <li>LIST</li>
+        </ul>
+      )
+    }
+
+    class Todos extends React.Component {
+      render () {
+        return (
+          <ul>
+            <li>LIST</li>
+          </ul>
+        )       
+      }
+    }
+
+    class Goals extends React.Component {
+      render () {
+        return (
+          <div>
+            GOALS
+            <List />
+          </div>
+        )
+      }
+    }
+
+    class App extends React.Component {
+      render () {
+        return (
+          <div>
+            <Todos />
+            <Goals />
+          </div>
+        )
+      }
+    }
+
+    React.DOM.render (
+      <App />,
+      document.getElementById('app')
+    )
+
   </script>
 </body>
 </html>
