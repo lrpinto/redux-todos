@@ -290,7 +290,6 @@
       render () {
         return (
           <div>
-            <Todos />
             <Todos store={this.props.store} />
             <Goals />
           </div>
@@ -298,7 +297,7 @@
       }
     }
 
-    React.DOM.render (
+    ReactDOM.render (
       <App store={store}/>,
       document.getElementById('app')
     )
