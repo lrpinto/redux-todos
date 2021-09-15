@@ -25,6 +25,17 @@
     const REMOVE_GOAL = 'REMOVE_GOAL'
     const RECEIVE_DATA = 'RECEIVE_DATA'
 
+    function handleInitialData () {
+      return (dispatch) => {
+        Promise.all([
+          API.fetchTodos(),
+          API.fetchGoals()
+        ]).then(([ todos, goals ]) => {
+          dispatch(receiveDataAction(todos, goals))
+        })
+      }
+    }
+
     function handleAddTodo (name, cb) {
       return (dispatch) => {
         return API.saveTodo(name)
@@ -327,12 +338,7 @@
       componentDidMount () {
         const { store } = this.props
 
-        Promise.all([
-          API.fetchTodos(),
-          API.fetchGoals()
-        ]).then(([ todos, goals ]) => {
-          store.dispatch(receiveDataAction(todos, goals))
-        })
+        store.dispatch(handleInitialData())
 
         store.subscribe(() => this.forceUpdate())
       }
