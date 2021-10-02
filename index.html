@@ -355,7 +355,7 @@
         const { store } = this.props
         const { loading } = store.getState()
 
-        if (loading === true) {
+        if (this.props.loading === true) {
           return <h3>Loading</h3>
         }
 
