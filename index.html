@@ -256,19 +256,9 @@
       )
     }
 
-    class ConnectedTodos extends React.Component {
-      render() {
-        return (
-          <Context.Consumer>
-            {(store) => {
-              const { todos } = store.getState()
-
-              return <Todos todos={todos} dispatch={store.dispatch} />
-            }}
-          </Context.Consumer>
-        )
-      }
-    }
+    const ConnectedTodos = connect((state) => ({
+      todos: state.todos
+    }))(Todos)
 
     class Todos extends React.Component {
 
@@ -349,27 +339,16 @@
       }
     }
 
-    class ConnectedGoals extends React.Component {
-      render() {
-        return (
-          <Context.Consumer>
-            {(store) => {
-              const { goals } = store.getState()
-
-              return <Goals goals={goals} dispatch={store.dispatch} />
-            }}
-          </Context.Consumer>
-        )
-      }
-    }
+    const ConnectedGoals = connect((state) => ({
+      goals: state.goals
+    }))(Goals)
 
     class App extends React.Component {
       componentDidMount () {
-        const { store } = this.props
+        const { dispatch } = this.props
 
-        store.dispatch(handleInitialData())
+        dispatch(handleInitialData())
 
-        store.subscribe(() => this.forceUpdate())
       }
 
       render () {
@@ -389,17 +368,9 @@
       }
     }
 
-    class ConnectedApp extends React.Component {
-      render() {
-        return (
-          <Context.Consumer>
-            {(store) => (
-              <App store={store} />
-            )}
-          </Context.Consumer>
-        )
-      }
-    }
+    const ConnectedApp = connect((state) => ({
+      loading: state.loading
+    }))(App)
 
     const Context = React.createContext()
 
